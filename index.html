@@ -1,0 +1,21 @@
+<html>
+<head>
+</head>
+
+<body>
+<h1>Date Counter</h1>
+Automagically Count Dates pursuant to section 602(c)(1) of the Home Rule Act!
+<h2>Effective Date</h2>
+<div id="effective"></div>
+<h2>Transmittal Date</h2>
+<div id="transmittal"></div>
+<h2>Counted Dates</h2>
+<div id="counter"></div>
+</body>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript">
+	var transmittal = prompt("start? [form 2013-12-25]").split(/[-\/]/g);
+	$("#effective").text(getEffDate(transmittal)[1]);
+</script>
+</html>
