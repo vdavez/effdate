@@ -29,15 +29,14 @@ var out = [];	//The output JSON array
 var j = 0;		//This is used to populate the JSON array
 
 //Iterate over each period in the array of session days
-for (var i=0; i < ss.length - 1; i++) {		//Make sure to stop at the second-to-last position 
-	
-	b = new Date(ss[i]);	//beginning
-	e = new Date(ss[i+1]);	//end date
+for (var i=0; i < (ss.length - 1); i++) {		//Make sure to stop at the second-to-last position 
+	b = moment(ss[i]);	//beginning
+	e = moment(ss[i+1]);	//end date
 
 	ms2d = 24*60*60*1000;	//this is a conversion from milliseconds to days
 	
 	gap = Math.round(Math.abs(e-b)/(ms2d))
-
+	//console.log(b + ":" + e + ":" + gap);
 	if(gap > 4) {		//find out if the difference in the gap > 4 days
 	
 		// need to check to see if the gaps are caused by an intervening weekend or holiday.
