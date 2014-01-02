@@ -86,9 +86,10 @@ function getNextDay(arr,val) {
 function inRecess (val) {
 	//var _recess = fs.readFileSync('recess_days.json','utf-8');
 	//iterate to check if in range
+    val = val.format("YYYY-MM-DD")
     for (var i = 0; i < _recess.length; i++) {
-        var begin = moment(_recess[i].begin);
-        var end = moment(_recess[i].end);
+        var begin = _recess[i].begin;
+        var end = _recess[i].end;
 		if (val >= begin && val <= end) return true; 
     }
 }
