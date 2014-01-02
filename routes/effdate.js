@@ -18,7 +18,7 @@ var prompt = require('prompt');
 var house = JSON.parse(fs.readFileSync('./public/house.json','utf-8')).house;
 var senate = JSON.parse(fs.readFileSync('./public/senate.json','utf-8')).senate;    
 var sDays = _.union(house, senate);
-var _recess = fs.readFileSync('./public/recess_days.json','utf-8');
+var _recess = JSON.parse(fs.readFileSync('./public/recess_days.json','utf-8'));
 
 exports.effdate = function(req, res){
 	var out = [];
@@ -34,6 +34,10 @@ exports.effdate = function(req, res){
 function getEffDate(transmittal) {
 var out = [];
 var i = 0;
+var house = JSON.parse(fs.readFileSync('./public/house.json','utf-8')).house;
+var senate = JSON.parse(fs.readFileSync('./public/senate.json','utf-8')).senate;    
+var sDays = _.union(house, senate);
+var _recess = fs.readFileSync('./public/recess_days.json','utf-8');
 var dayOne = moment(transmittal);
 if (!dayOne.isValid()) {(alert("date's invalid"))}
 else {
@@ -84,12 +88,12 @@ function getNextDay(arr,val) {
 }
 
 function inRecess (val) {
-	//var _recess = fs.readFileSync('recess_days.json','utf-8');
+//	var _recess = JSON.parse(fs.readFileSync('./public/recess_days.json','utf-8'));
 	//iterate to check if in range
-    val = val.format("YYYY-MM-DD")
+    val = val.format("YYYY/MM/DD");
     for (var i = 0; i < _recess.length; i++) {
         var begin = _recess[i].begin;
         var end = _recess[i].end;
-		if (val >= begin && val <= end) return true; 
+		if (val >= begin && val <= end) {return true}; 
     }
 }
