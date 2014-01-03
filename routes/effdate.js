@@ -22,16 +22,17 @@ var _recess = JSON.parse(fs.readFileSync('./public/recess_days.json','utf-8'));
 
 exports.effdate = function(req, res){
 	var out = [];
-
 	var t = req.query.t.split(/[-\/]/g);
+	var dayscount = req.query.c;
+	if (dayscount == undefined) dayscount = 30;
 	t[1] = t[1]-1;
-	out = getEffDate(t);
+	out = getEffDate(t, dayscount);
 	console.log("Effective Date: " + out[1]);
 	console.dir("Count: " + out[0]);
 	res.send("<h1>Effective Date</h1><p>" + out[1] + "</p><h1>Dates Counted</h1><p>" + out[0] + "</p>");
 }
 
-function getEffDate(transmittal) {
+function getEffDate(transmittal, dayscount) {
 var out = [];
 var i = 0;
 var house = JSON.parse(fs.readFileSync('./public/house.json','utf-8')).house;
@@ -42,7 +43,7 @@ var dayOne = moment(transmittal);
 if (!dayOne.isValid()) {(alert("date's invalid"))}
 else {
 var c = moment(dayOne);
-while (i < 30) {
+while (i < dayscount) {
 //Count the day?
     if (isCountedDay(sDays,c)) {out[i] = c.format("YYYY/MM/DD"); i++;}
     c = getNextDay(sDays,c);
