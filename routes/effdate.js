@@ -39,7 +39,7 @@ var senate = JSON.parse(fs.readFileSync('./public/senate.json','utf-8')).senate;
 var sDays = _.union(house, senate);
 var _recess = fs.readFileSync('./public/recess_days.json','utf-8');
 var dayOne = moment(transmittal);
-if (!dayOne.isValid()) {(alert("date's invalid"))}
+if (!dayOne.isValid()) {return out = ['<a href="./">Try again with a Valid Date</a>', 'Invalid Date Entered']}
 else {
 var c = moment(dayOne);
 while (i < dayscount) {
