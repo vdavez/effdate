@@ -1,6 +1,7 @@
 // Populate a JSON file with the days that Congress is on recess...
 
-var _ = require('underscore');
+exports.recessBuilder = function () {
+	var _ = require('underscore');
 var moment = require('moment');
 var fs = require('fs');
 var holidays = require('./public/moment-holidays.js') 
@@ -16,6 +17,9 @@ var out = [];
 //Populate/Write the Recess Days JSON object
 out = getRecessDays(ss);
 fs.writeFileSync('./public/recess_days.json',JSON.stringify(out),'utf-8');
+console.log('Recess built');
+
+
 //console.log(moment("2013-12-25").holiday() + ' is a holiday');
 
 /*getRecessDays(array of dates)
@@ -55,4 +59,5 @@ for (var i=0; i < (ss.length - 1); i++) {		//Make sure to stop at the second-to-
 	}};
 }
 return out;
+}
 }

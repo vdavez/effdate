@@ -41,3 +41,20 @@ app.get('/effdate', effdate.effdate);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+//var clock = require('./clock.js');
+var sessionBuilder = require('./sessionBuilder.js');
+var recessBuilder = require('./recessBuilder');
+
+setInterval(function() {
+	console.log("Working...");
+	sessionBuilder.sessionBuilder();
+
+	console.log('building the sessions');
+	setTimeout(function() {
+		console.log("building the recess...");
+		recessBuilder.recessBuilder();
+	}, 600000);
+
+//	clock.clock;
+}, 14400000);
