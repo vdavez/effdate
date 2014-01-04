@@ -22,10 +22,9 @@ var _recess = JSON.parse(fs.readFileSync('./public/recess_days.json','utf-8'));
 
 exports.effdate = function(req, res){
 	var out = [];
-	var t = req.query.t.split(/[-\/]/g);
 	var dayscount = req.query.c;
 	if (dayscount == undefined) dayscount = 30;
-	t[1] = t[1]-1;
+	var t = req.query.t;
 	out = getEffDate(t, dayscount);
 	console.log("Effective Date: " + out[1]);
 	console.dir("Count: " + out[0]);
@@ -66,7 +65,6 @@ function getNextSessionDay (arr, val) {
 
 function isCountedDay (arr, val) {
     //Check for count
-//    if (val.weekday() == 0 || val.weekday() == 6 || typeof(val.holiday()) != "undefined" || (withinThreeDays(arr,val) != true) || inRecess(val) == true) {return false}
     if (val.weekday() == 0 || val.weekday() == 6 || typeof(val.holiday()) != "undefined" || inRecess(val)) {return false}
     else {return true}
 }
@@ -89,7 +87,6 @@ function getNextDay(arr,val) {
 }
 
 function inRecess (val) {
-//	var _recess = JSON.parse(fs.readFileSync('./public/recess_days.json','utf-8'));
 	//iterate to check if in range
     val = val.format("YYYY/MM/DD");
     for (var i = 0; i < _recess.length; i++) {

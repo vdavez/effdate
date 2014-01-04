@@ -42,7 +42,6 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-//var clock = require('./clock.js');
 var sessionBuilder = require('./sessionBuilder.js');
 var recessBuilder = require('./recessBuilder');
 
@@ -56,5 +55,4 @@ setInterval(function() {
 		recessBuilder.recessBuilder();
 	}, 600000);
 
-//	clock.clock;
 }, 14400000);

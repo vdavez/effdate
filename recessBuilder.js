@@ -58,6 +58,9 @@ for (var i=0; i < (ss.length - 1); i++) {		//Make sure to stop at the second-to-
 			out[j] = {"begin":new moment(b).add('day',1).format("YYYY/MM/DD"),"end":moment(e).subtract('day',1).format("YYYY/MM/DD")}; j++;
 	}};
 }
+
+//Need to add a way to determine if the most recent session day is greater than 4 days away...
+
 return out;
 }
 }
