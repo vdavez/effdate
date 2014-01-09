@@ -2,7 +2,8 @@
 // Mad props to @drinks for a great API at capitolwords.org!
 // Neat, huh?
 
-exports.sessionBuilder = function () {var http = require('http');
+exports.sessionBuilder = function () {
+    var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
 
@@ -33,5 +34,5 @@ function printdays(h, ds) {
 	var f = './public/' + h + '.json';
 	var outString = '{"' + h +'": [' + ds +']}';
 	fs.writeFileSync(f, outString, 'utf-8');
-};
+}
 }

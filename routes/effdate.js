@@ -28,6 +28,10 @@ exports.effdate = function(req, res){
 	out = getEffDate(t, dayscount);
 	console.log("Effective Date: " + out[1]);
 	console.dir("Count: " + out[0]);
+/*	
+	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1], "days_array":out[0], "criminal":(dayscount == "60" ? true : false) };
+	res.json(jsonObj);
+*/
 	res.send("<h1>Effective Date</h1><p>" + out[1] + "</p><h1>Dates Counted</h1><p>" + out[0] + "</p>");
 }
 
@@ -44,7 +48,7 @@ else {
 var c = moment(dayOne);
 while (i < dayscount) {
 //Count the day?
-    if (isCountedDay(sDays,c)) {out[i] = c.format("YYYY/MM/DD"); i++;}
+    if (isCountedDay(sDays,c)) {out[i] = c.format("YYYY-MM-DD"); i++;}
     c = getNextDay(sDays,c);
 }
 }

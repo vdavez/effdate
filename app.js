@@ -6,9 +6,12 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-var effdate = require('./routes/effdate')
+var _ = require('underscore');
+var effdate = require('./routes/effdate');
 var http = require('http');
+var knox = require('knox');
 var path = require('path');
+var fs = require('fs');
 
 var app = express();
 var cons = require('consolidate');
@@ -29,6 +32,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+var client = knox.createClient({
+    key: process.env.AWSAccessKeyId
+  , secret: process.env.AWSSecretKey
+  , bucket: 'effdate'
+});
+
+// OnFirstLoad, you get the latest from Amazon
+var files = ['public/house.json','public/senate.json','public/recess_days.json']
+_.each(files, function (f) {
+	fs.writeFileSync(f, client.getFile('https://s3-us-west-2.amazonaws.com/effdate/' + f, function (err, res) {res.resume()}), 'utf-8');
+	console.log('file: ' + f + ' = successfully loaded');
+});
 
 // Registering underscore template
 app.engine('html', cons.underscore);
@@ -54,5 +70,12 @@ setInterval(function() {
 		console.log("building the recess...");
 		recessBuilder.recessBuilder();
 	}, 600000);
+
+// On Build, you post the latest to Amazon
+var files = ['public/house.json','public/senate.json','public/recess_days.json']
+_.each(files, function (f) {
+	client.putFile(f, 'https://s3-us-west-2.amazonaws.com/effdate/' + f, function (err, res) {res.resume()});
+	console.log('file: ' + f + ' = successfully loaded');
+});
 
 }, 14400000);
