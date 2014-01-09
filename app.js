@@ -40,9 +40,16 @@ var client = knox.createClient({
 });
 
 // OnFirstLoad, you get the latest from Amazon
-var files = ['public/house.json','public/senate.json','public/recess_days.json']
+var files = ['public/house.json','public/senate.json','public/recess_days.json'];
 _.each(files, function (f) {
-	fs.writeFileSync(f, client.getFile('https://s3-us-west-2.amazonaws.com/effdate/' + f, function (err, res) {res.resume()}), 'utf-8');
+	var file = fs.createWriteStream('./' + f);
+	http.get('http://s3-us-west-2.amazonaws.com/effdate/' + f, function(res) {
+    	res.on('data', function(data) {
+            file.write(data);
+        }).on('end', function() {
+            file.end();
+        });
+    });
 	console.log('file: ' + f + ' = successfully loaded');
 });
 
@@ -72,10 +79,15 @@ setInterval(function() {
 	}, 600000);
 
 // On Build, you post the latest to Amazon
-var files = ['public/house.json','public/senate.json','public/recess_days.json']
+var files = ['public/house.json','public/senate.json','public/recess_days.json'];
 _.each(files, function (f) {
-	client.putFile(f, 'https://s3-us-west-2.amazonaws.com/effdate/' + f, { 'x-amz-acl': 'public-read' }function (err, res) {res.resume()});
-	console.log('file: ' + f + ' = successfully loaded');
+	client.putFile('./' + f, 'https://s3-us-west-2.amazonaws.com/effdate/' + f, { 'x-amz-acl': 'public-read' }, function (err, result) {
+         if (err != null) {
+             return console.log(err);
+         } else {
+             return console.log("File: " + f + " = successfully uploaded to amazon S3");
+         }
+     });;
 });
 
 }, 14400000);
