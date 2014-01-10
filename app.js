@@ -79,9 +79,9 @@ setInterval(function() {
 	}, 600000);
 
 // On Build, you post the latest to Amazon
-var files = ['public/house.json','public/senate.json','public/recess_days.json'];
+var files = ['/public/house.json','/public/senate.json','/public/recess_days.json'];
 _.each(files, function (f) {
-	client.putFile('./' + f, 'https://s3-us-west-2.amazonaws.com/effdate/' + f, { 'x-amz-acl': 'public-read' }, function (err, result) {
+	client.putFile('.' + f, f, { 'x-amz-acl': 'public-read' }, function (err, result) {
          if (err != null) {
              return console.log(err);
          } else {
