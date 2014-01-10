@@ -76,7 +76,7 @@ setInterval(function() {
 	setTimeout(function() {
 		console.log("building the recess...");
 		recessBuilder.recessBuilder();
-	}, 600000);
+	}, 300000);
 
 // On Build, you post the latest to Amazon
 var files = ['/public/house.json','/public/senate.json','/public/recess_days.json'];
@@ -90,4 +90,4 @@ _.each(files, function (f) {
      });;
 });
 
-}, 14400000);
+}, 2700000);
