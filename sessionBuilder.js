@@ -2,10 +2,11 @@
 // Mad props to @drinks for a great API at capitolwords.org!
 // Neat, huh?
 
-exports.sessionBuilder = function () {
-    var http = require('http');
+//exports.sessionBuilder = function () {
+var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
+var knox = require('knox');
 
 var apikey = "e1b0f4a0c7b94f70aed6e6273c2a5b2c";
 var ss = {"house": [], "senate":[]};
@@ -31,8 +32,22 @@ _.map(ss, function (days, chamber) {
 });
 
 function printdays(h, ds) {
-	var f = './public/' + h + '.json';
+
+    var client = knox.createClient({
+    key: process.env.AWSAccessKeyId
+  , secret: process.env.AWSSecretKey
+  , bucket: 'effdate'
+});
+	var f = '/public/' + h + '.json';
 	var outString = '{"' + h +'": [' + ds +']}';
-	fs.writeFileSync(f, outString, 'utf-8');
-}
+	fs.writeFileSync('.' + f, outString, 'utf-8');
+    console.log("File: "+ f + ' successfully built' );
+    client.putFile('.' + f, f , { 'x-amz-acl': 'public-read' }, function (err, result) {
+    if (err != null) {
+             return console.log(err);
+         } else {
+             return console.log("File: " + h + ".json successfully uploaded to amazon S3");
+         }
+     });
+
 }

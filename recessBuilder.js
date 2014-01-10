@@ -1,9 +1,10 @@
 // Populate a JSON file with the days that Congress is on recess...
 
-exports.recessBuilder = function () {
-	var _ = require('underscore');
+//exports.recessBuilder = function () {
+var _ = require('underscore');
 var moment = require('moment');
 var fs = require('fs');
+var knox = require('knox');
 var holidays = require('./public/moment-holidays.js') 
 
 //Get the JSON file of the Session Days
@@ -18,6 +19,21 @@ var out = [];
 out = getRecessDays(ss);
 fs.writeFileSync('./public/recess_days.json',JSON.stringify(out),'utf-8');
 console.log('Recess built');
+
+var client = knox.createClient({
+    key: process.env.AWSAccessKeyId
+  , secret: process.env.AWSSecretKey
+  , bucket: 'effdate'
+});
+
+client.putFile('./public/recess_days.json', '/public/recess_days.json', { 'x-amz-acl': 'public-read' }, function (err, result) {
+    if (err != null) {
+             return console.log(err);
+         } else {
+             return console.log("File: recess_days.json successfully uploaded to amazon S3");
+         }
+     });
+
 
 
 //console.log(moment("2013-12-25").holiday() + ' is a holiday');
@@ -62,5 +78,4 @@ for (var i=0; i < (ss.length - 1); i++) {		//Make sure to stop at the second-to-
 //Need to add a way to determine if the most recent session day is greater than 4 days away...
 
 return out;
-}
 }

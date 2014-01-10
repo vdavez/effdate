@@ -9,7 +9,6 @@ var user = require('./routes/user');
 var _ = require('underscore');
 var effdate = require('./routes/effdate');
 var http = require('http');
-var knox = require('knox');
 var path = require('path');
 var fs = require('fs');
 
@@ -32,12 +31,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-var client = knox.createClient({
-    key: process.env.AWSAccessKeyId
-  , secret: process.env.AWSSecretKey
-  , bucket: 'effdate'
-});
 
 // OnFirstLoad, you get the latest from Amazon
 var files = ['public/house.json','public/senate.json','public/recess_days.json'];
@@ -64,30 +57,3 @@ app.get('/effdate', effdate.effdate);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-var sessionBuilder = require('./sessionBuilder.js');
-var recessBuilder = require('./recessBuilder');
-
-setInterval(function() {
-	console.log("Working...");
-	sessionBuilder.sessionBuilder();
-
-	console.log('building the sessions');
-	setTimeout(function() {
-		console.log("building the recess...");
-		recessBuilder.recessBuilder();
-	}, 300000);
-
-// On Build, you post the latest to Amazon
-var files = ['/public/house.json','/public/senate.json','/public/recess_days.json'];
-_.each(files, function (f) {
-	client.putFile('.' + f, f, { 'x-amz-acl': 'public-read' }, function (err, result) {
-         if (err != null) {
-             return console.log(err);
-         } else {
-             return console.log("File: " + f + " = successfully uploaded to amazon S3");
-         }
-     });;
-});
-
-}, 2700000);
