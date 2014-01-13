@@ -53,6 +53,7 @@ app.set('view engine', 'html');
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/effdate', effdate.effdate);
+app.get('/api/1/', effdate.api);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

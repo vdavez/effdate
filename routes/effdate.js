@@ -35,6 +35,19 @@ exports.effdate = function(req, res){
 	res.send("<h1>Effective Date</h1><p>" + out[1] + "</p><h1>Dates Counted</h1><p>" + out[0] + "</p>");
 }
 
+exports.api = function(req, res){
+	var out = [];
+	var dayscount = req.query.c;
+	if (dayscount == undefined) dayscount = 30;
+	var t = req.query.t;
+	out = getEffDate(t, dayscount);
+	console.log("Effective Date: " + out[1]);
+	console.dir("Count: " + out[0]);
+	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1], "days_array":out[0], "criminal":(dayscount == "60" ? true : false) };
+	res.json(jsonObj);
+}
+
+
 function getEffDate(transmittal, dayscount) {
 var out = [];
 var i = 0;
