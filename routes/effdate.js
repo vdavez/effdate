@@ -32,7 +32,7 @@ exports.effdate = function(req, res){
 	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1], "days_array":out[0], "criminal":(dayscount == "60" ? true : false) };
 	res.json(jsonObj);
 */
-	res.send("<h1>Effective Date</h1><p>" + out[1] + "</p><h1>Dates Counted</h1><p>" + out[0] + "</p>");
+	res.send("<h1>Effective Date</h1><p>" + out[1].format("dddd, MMM. DD, YYYY") + "</p><h1>Dates Counted</h1><p>" + out[0] + "</p>");
 }
 
 exports.api = function(req, res){
@@ -43,7 +43,7 @@ exports.api = function(req, res){
 	out = getEffDate(t, dayscount);
 	console.log("Effective Date: " + out[1]);
 	console.dir("Count: " + out[0]);
-	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1], "days_array":out[0], "criminal":(dayscount == "60" ? true : false) };
+	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1], "days_array":out[0], "effdate_long": out[1].format("dddd, MMM. DD, YYYY"), "criminal":(dayscount == "60" ? true : false) };
 	res.json(jsonObj);
 }
 
@@ -65,7 +65,7 @@ while (i < dayscount) {
     c = getNextDay(sDays,c);
 }
 }
-return [out, c.format("dddd, MMM. DD, YYYY")];
+return [out, c];
 }
 
 function checkMomentArray (arr, val) {
