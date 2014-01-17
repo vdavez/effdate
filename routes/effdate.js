@@ -43,7 +43,7 @@ exports.api = function(req, res){
 	out = getEffDate(t, dayscount);
 	console.log("Effective Date: " + out[1]);
 	console.dir("Count: " + out[0]);
-	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1], "days_array":out[0], "effdate_long": out[1].format("dddd, MMM. DD, YYYY"), "criminal":(dayscount == "60" ? true : false) };
+	var jsonObj = {"transmittal": moment(t).format("YYYY-MM-DD"), "effdate":out[1].format("YYYY-MM-DD"), "days_array":out[0], "effdate_long": out[1].format("dddd, MMM. DD, YYYY"), "criminal":(dayscount == "60" ? true : false) };
 	res.json(jsonObj);
 }
 
