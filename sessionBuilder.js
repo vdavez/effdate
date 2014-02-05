@@ -7,6 +7,7 @@ var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
 var knox = require('knox');
+var moment = require('moment');
 
 var apikey = "e1b0f4a0c7b94f70aed6e6273c2a5b2c";
 var ss = {"house": [], "senate":[]};
@@ -49,5 +50,16 @@ function printdays(h, ds) {
              return console.log("File: " + h + ".json successfully uploaded to amazon S3");
          }
      });
+}
 
+function checkGPO (day, house) {
+  var url = 'http://www.gpo.gov/fdsys/pkg/CREC-' + day + '/pdf/CREC-' + day + '-' + house + '.pdf';
+    http.get(url, function (res) {
+      if (res.statusCode == '200') {
+        return true;
+      }
+      else {
+        return false;
+      }
+  })
 }
