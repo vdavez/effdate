@@ -7,6 +7,10 @@ var fs = require('fs');
 var knox = require('knox');
 var holidays = require('./public/moment-holidays.js')
 
+var cronJob = require('cron').CronJob;
+new cronJob('00 10 * * * *', function(){
+
+
 //Get the JSON file of the Session Days
 var house = JSON.parse(fs.readFileSync('./public/house.json', 'utf-8')).house;
 var senate = JSON.parse(fs.readFileSync('./public/senate.json', 'utf-8')).senate;
@@ -33,7 +37,7 @@ client.putFile('./public/recess_days.json', '/public/recess_days.json', { 'x-amz
              return console.log("File: recess_days.json successfully uploaded to amazon S3");
          }
      });
-
+}
 /*getRecessDays(array of dates)
 This function calculates whether Congress has been a recess of more than 3 days (excluding intervening weekends and holidays) and returns a JSON object of recess periods...
 */

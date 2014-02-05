@@ -8,6 +8,11 @@ var _ = require('underscore');
 var fs = require('fs');
 var knox = require('knox');
 var moment = require('moment');
+var cronJob = require('cron').CronJob;
+new cronJob('00 00 * * * *', function(){
+
+
+
 
 var apikey = "e1b0f4a0c7b94f70aed6e6273c2a5b2c";
 var ss = {"house": [], "senate":[]};
@@ -31,6 +36,8 @@ _.map(ss, function (days, chamber) {
       console.log("Got error: ", e);
 });
 });
+
+}, null, true, "America/Los_Angeles");
 
 function printdays(h, ds) {
 
