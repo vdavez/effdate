@@ -41,7 +41,6 @@ exports.api = function(req, res){
 	if (dayscount == undefined) dayscount = 30;
 	var t = req.query.t;
 	var p = req.query.p;
-	if (p == undefined) p = "no";
 	out = getEffDate(t, dayscount, p);
 	console.log("Effective Date: " + out[1]);
 	console.dir("Count: " + out[0]);
