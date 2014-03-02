@@ -22,8 +22,12 @@
     <label for="transmittal_date" class="sr-only">Transmittal Date: [format "2013-01-01"]</label>
     <input type="text" class="form-control" name="t" id="transmittal_date" placeholder="Transmittal Date?">
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button id="submit" class="btn btn-default">Submit</button>
 </form>
+<div class="checkbox">
+    <input type="checkbox" id="criminal" name="criminalcount">Criminal Provisions?</div>
+
+      <div id="results-container"></div>
     <hr/>
     <h2>Description</h2>
     <p>Under <a href="http://dccode.org/browser/#/1/1-206.02">section 602(c) of the Home Rule Act</a>, most Council acts** must be transmitted to Congress for 30-day passive review. In 40 years of Home Rule, there have only been 3 instances where Congress has exercised its power under section 602(c) to disapprove of Council acts.</p><p>Making matters worse, Congress decided that 30 days would be too easy to calculate, so Congress defined the 30-day period as follows:
@@ -33,9 +37,27 @@
     <p>** The main exceptions are (1) acts affecting the criminal code, which have 60-day periods, and (2) Charter amendments, which have a 35-day count (though the counting method is slightly different).</p>
   </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="./js/jquery-1.9.1.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/effdate.js"></script>
+    <script type="text/javascript">
+    var _recess = null;
+    window.onload = function () {
+      $.getJSON('http://effdate.s3.amazonaws.com/public/recess_days.json', function (d) {
+        _recess = d;
+      });
+    }
+      $("#submit").click(function (e) {
+         e.preventDefault();
+         if (_recess == null) return false;
+         var crim = ($("#criminal").prop("checked") == true ? 60 : 30);
+
+         var resultObj = window.effdate.getEffDate($("#transmittal_date").val(),crim,'no',_recess);
+         $("#results-container").html('<hr /><p><strong>Computed Effective Date</strong></p><p>'+ resultObj.effdate_long +'</p><p><strong>Days Counted</strong></p><p style="word-break:break-all;">' + resultObj.days_array + '</p>');
+      })
+
+    </script>
     <!--Google Analytics until i figure something better out -->   
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
