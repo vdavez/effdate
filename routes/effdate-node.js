@@ -11,7 +11,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var moment = require('moment');
 var holidays = require('../public/moment-holidays.js')
-var prompt = require('prompt');
+//var prompt = require('prompt');
 
 function effdate(req, res) {
     var out = [];

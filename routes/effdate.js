@@ -12,7 +12,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var moment = require('moment');
 var holidays = require('../public/moment-holidays.js')
-var prompt = require('prompt');
+//var prompt = require('prompt');
 
 // Get the list of days in session. This is from a JSON file.
 var house = JSON.parse(fs.readFileSync('./public/house.json','utf-8')).house;

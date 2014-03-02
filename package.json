@@ -11,6 +11,7 @@
     "underscore":"*",
     "moment":"*",
     "knox":"*",
+    "prompt":"*",
     "cron":"*"
   }
 }
