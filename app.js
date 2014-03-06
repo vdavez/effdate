@@ -35,7 +35,10 @@ if ('development' == app.get('env')) {
 
 // OnFirstLoad, you get the latest from Amazon
 var sessionBuilder = require('./sessionBuilder');
-var recessBuilder = require('./recessBuilder');
+setTimeout(function () {
+	var recessBuilder = require('./recessBuilder');
+}, 30000);
+
 
 new cronJob('00 00 * * * *', function () {
   sessionBuilder;
