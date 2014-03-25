@@ -45,7 +45,7 @@ new cronJob('00 00 * * * *', function () {
 }, null, true, "America/Los_Angeles");
 
 new cronJob('00 10 * * * *', function () {
-  recessBuilder;  
+  require('./recessBuilder');
 }, null, true, "America/Los_Angeles");
 
 // Registering underscore template
