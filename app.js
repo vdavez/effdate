@@ -45,6 +45,9 @@ app.get('/', function(req, res) {
 });
 app.get('/effdate', effdate.effdate);
 app.get('/api/1/', effdate.api);
+app.get('/recess', function(req,res){
+	res.sendfile('./public/recess_days.json')
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
