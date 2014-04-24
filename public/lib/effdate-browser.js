@@ -31,14 +31,9 @@ exports.getEffDate = function getEffDate(transmittal, dayscount, prediction, _re
     return jsonObj;
 }
 else {console.log("error loading recess object")}
-    //    };
-    //    xhr.send();
 
     if (prediction == "yes") {
         _recess.push({
-            "begin": "2014/03/17",
-            "end": "2014/03/21"
-        }, {
             "begin": "2014/04/14",
             "end": "2014/04/25"
         }, {

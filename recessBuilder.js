@@ -4,7 +4,6 @@
 var _ = require('underscore');
 var moment = require('moment');
 var fs = require('fs');
-var knox = require('knox');
 var holidays = require('./public/moment-holidays.js')
 
 //Get the JSON file of the Session Days
@@ -19,20 +18,6 @@ var out = [];
 out = getRecessDays(ss);
 fs.writeFileSync('./public/recess_days.json', JSON.stringify(out), 'utf-8');
 console.log('Recess built');
-
-var client = knox.createClient({
-    key: process.env.AWSAccessKeyId
-  , secret: process.env.AWSSecretKey
-  , bucket: 'effdate'
-});
-
-client.putFile('./public/recess_days.json', '/public/recess_days.json', { 'x-amz-acl': 'public-read' }, function (err, result) {
-    if (err != null) {
-             return console.log(err);
-         } else {
-             return console.log("File: recess_days.json successfully uploaded to amazon S3");
-         }
-     });
 
 /*getRecessDays(array of dates)
 This function calculates whether Congress has been a recess of more than 3 days (excluding intervening weekends and holidays) and returns a JSON object of recess periods...
