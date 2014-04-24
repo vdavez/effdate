@@ -46,7 +46,9 @@ app.get('/', function(req, res) {
 app.get('/effdate', effdate.effdate);
 app.get('/api/1/', effdate.api);
 app.get('/recess', function(req,res){
-	res.sendfile('./public/recess_days.json')
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	res.sendfile('./public/recess_days.json');
 });
 
 http.createServer(app).listen(app.get('port'), function(){
