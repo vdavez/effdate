@@ -29,11 +29,7 @@ if ('development' == app.get('env')) {
 }
 
 new cronJob('00 00 * * * *', function () {
-  require('./sessionBuilder');
-}, null, true, "America/Los_Angeles");
-
-new cronJob('00 10 * * * *', function () {
-  require('./recessBuilder');
+	var gpo = require('./gpo')
 }, null, true, "America/Los_Angeles");
 
 // Registering underscore template

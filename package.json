@@ -10,8 +10,8 @@
     "consolidate":"*",
     "underscore":"*",
     "moment":"*",
-    "knox":"*",
     "prompt":"*",
-    "cron":"*"
+    "cron":"*",
+    "request":"*"
   }
 }
