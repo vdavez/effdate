@@ -12,6 +12,8 @@
     "moment":"*",
     "prompt":"*",
     "cron":"*",
-    "request":"*"
+    "request":"*",
+    "time":"*",
+    "async":"*"
   }
 }

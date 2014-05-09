@@ -2,17 +2,19 @@ var moment = require('moment');
 var http = require('http');
 var request = require('request');
 var fs = require('fs');
+var async = require('async');
 
 function run() {
-	["house","senate"].forEach(function (chamber) {
+	async.eachSeries(["house","senate"], function (chamber, callback) {
 		f = JSON.parse(fs.readFileSync('./public/' + chamber + '.json'));
 		getGPO(chamber, f[chamber], function(result) {
 			writeHouse(chamber, result, function () {
-				var recess = require('./recess');
-//				recess.build()
+				console.log(chamber + " json written");
+				callback()
 			})
 		})
-//		console.log(f[chamber])
+	}, function (err) {
+		var recess = require('./recess');
 	})
 }
 
